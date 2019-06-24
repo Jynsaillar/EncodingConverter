@@ -8,12 +8,13 @@ namespace EncodingMethods
 {
     public static class DirectoryInfoExtension
     {
+        // Taken from https://stackoverflow.com/questions/3527203/getfiles-with-multiple-extensions
         public static IEnumerable<FileInfo> GetFilesByExtensions(this DirectoryInfo dirInfo, params string[] extensions)
         {
             var allowedExtensions = new HashSet<string>(extensions, StringComparer.OrdinalIgnoreCase);
 
             return dirInfo.EnumerateFiles()
-                          .Where(f => allowedExtensions.Contains(f.Extension));
+                          .Where(file => allowedExtensions.Contains(file.Extension));
         }
     }
 
