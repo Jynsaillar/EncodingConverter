@@ -1,5 +1,7 @@
 # EncodingConverter
-Small console app to open and resave all files in a directory with extensions matching a user-provided filter. Runs on .NET Core.
+This program takes a path to a directory containing files with wrong encodings and an encoding as arguments, opens all files in the 
+given directory (recursively) and saves them with the new encoding.
+File extensions can be filtered to select only specific files in the directory (e.g. `.cs` or `.h`, `.cpp`, `.hpp`).
 
 ## Prerequisites
 
