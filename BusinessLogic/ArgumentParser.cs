@@ -42,7 +42,7 @@ namespace ArgumentParsing
                             break;
                         case "-se":
                             flagSourceEncoding = true;
-                            flagDestEncoding = true;
+                            flagDestEncoding = false;
                             flagDirectory = false;
                             flagFilters = false;
                             break;
@@ -51,7 +51,7 @@ namespace ArgumentParsing
                             flagSourceEncoding = false;
                             flagDirectory = false;
                             flagFilters = false;
-                        break;
+                            break;
                         case "-f":
                             flagFilters = true;
                             flagDirectory = false;
