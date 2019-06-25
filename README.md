@@ -22,11 +22,15 @@ Modify `EncodingConverter\launch.json` and edit `configurations->args` to your l
 "configurations": [
         {
             ...
-            "args": ["C:\\FilesWithWrongEncoding", "windows-1252"],
+            "args": ["-d", "C:\\FilesWithWrongEncoding", "-e", "windows-1252", "-f", ".h", ".hpp", ".cpp"],
             ...
         },
         ...
     ]
  ```
  ### Release mode
- Provide the path to the directory containing badly encoded files as first argument and the new encoding as second argument.
+ Keyword|Number of Arguments|Purpose
+:------------------:|:-------:|-------
+-d     | 1 |Path to the directory containing files that need to be re-encoded|
+-e     | 1 |New encoding, either an encoding or a codepage listed on [MSDN](https://docs.microsoft.com/en-us/dotnet/api/system.text.encoding?view=netcore-3.0)|
+-f     | * |One or more file extensions. Only files with these extensions will be re-encoded. Wildcard `*` matches all files (not recommended as this will also include media files etc., only use this if you know that the folder only contains valid files!)|
