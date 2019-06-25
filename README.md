@@ -11,7 +11,8 @@ File extensions can be filtered to select only specific files in the directory (
 ## How to
 
 * Clone the repository to a folder of your chosing with `git clone https://github.com/Jynsaillar/EncodingConverter.git`
-* In the terminal, change your working directory to the `EncodingConverter` root folder, e.g. `cd D:\EncodingConverter`
+* In the terminal, change your working directory to the `EncodingConverter` root folder, e.g.  
+`cd D:\EncodingConverter`
 * Install the `CodePages` NuGet package: `dotnet add package System.Text.Encoding.CodePages --version 4.5.1`
 * Run the program either in Debug mode or release mode -
 ### Debug mode
