@@ -18,8 +18,9 @@ namespace EncodingConverter
             try
             {
                 var filteredArgs = ArgumentParser.FilteredArgs(args);
-                var newEncoding = System.Text.Encoding.GetEncoding(filteredArgs.NewEncoding);
-                var convertedFilesCount = DirectoryEncodingConverter.ConvertAllFileEncodingsFiltered(filteredArgs.TargetDirectory, newEncoding, filteredArgs.ExtensionFilters);
+                var sourceEncoding = System.Text.Encoding.GetEncoding(filteredArgs.SourceEncoding);
+                var destEncoding = System.Text.Encoding.GetEncoding(filteredArgs.DestEncoding);
+                var convertedFilesCount = DirectoryEncodingConverter.ConvertAllFileEncodingsFiltered(filteredArgs.TargetDirectory, sourceEncoding, destEncoding, filteredArgs.ExtensionFilters);
 
                 Console.WriteLine($"Converted {convertedFilesCount} files.");
             }

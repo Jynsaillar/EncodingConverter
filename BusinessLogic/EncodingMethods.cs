@@ -24,7 +24,7 @@ namespace EncodingMethods
     public static class DirectoryEncodingConverter
     {
         public static System.Text.EncodingProvider EncodingProvider = System.Text.CodePagesEncodingProvider.Instance; // These fixes the missing encodings in .NET Core.
-        public static int ConvertAllFileEncodingsFiltered(string directory, Encoding newEncoding, List<string> extensionFilters)
+        public static int ConvertAllFileEncodingsFiltered(string directory, Encoding sourceEncoding, Encoding destEncoding, List<string> extensionFilters)
         {
             if (!Directory.Exists(directory))
             {
@@ -38,8 +38,11 @@ namespace EncodingMethods
 
             foreach (var file in targetDirectoryInfo.GetFilesByExtensions(extensionFilters.ToArray()))
             {
-                var fileContent = File.ReadAllText(file.FullName);
-                File.WriteAllText(file.FullName, fileContent, newEncoding);
+                //var fileContent = File.ReadAllText(file.FullName);
+                var fileContent = File.ReadAllBytes(file.FullName);
+                var convertedFile = Encoding.Convert(sourceEncoding, destEncoding, fileContent);
+                File.WriteAllBytes(file.FullName, convertedFile);
+                //File.WriteAllText(file.FullName, destEncoding.GetString(convertedFile), destEncoding);
                 convertedFilesCounter++;
             }
 
