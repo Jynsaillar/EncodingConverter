@@ -1,5 +1,6 @@
 ﻿using System;
 using EncodingMethods;
+using ArgumentParsing;
 
 namespace EncodingConverter
 {
@@ -7,19 +8,18 @@ namespace EncodingConverter
     {
         static void Main(string[] args)
         {
-            if (args.Length < 2)
-            {
-                Console.WriteLine("No valid directory paths found. Please provide a valid directory as first argument [0] and the new encoding as second argument [1].");
-            }
 
             System.Text.Encoding.RegisterProvider(DirectoryEncodingConverter.EncodingProvider); // Registers encoding provider to enable all encodings in .NET Core.
+            ConvertFileEncodings(args);
+        }
 
-            var targetDirectory = args[0];
-            var newEncodingString = args[1];
+        static void ConvertFileEncodings(string[] args)
+        {
             try
             {
-                var newEncoding = System.Text.Encoding.GetEncoding(newEncodingString);
-                var convertedFilesCount = DirectoryEncodingConverter.ConvertAllFileEncodingsFiltered(targetDirectory, newEncoding);
+                var filteredArgs = ArgumentParser.FilteredArgs(args);
+                var newEncoding = System.Text.Encoding.GetEncoding(filteredArgs.NewEncoding);
+                var convertedFilesCount = DirectoryEncodingConverter.ConvertAllFileEncodingsFiltered(filteredArgs.TargetDirectory, newEncoding, filteredArgs.ExtensionFilters);
 
                 Console.WriteLine($"Converted {convertedFilesCount} files.");
             }
@@ -27,7 +27,6 @@ namespace EncodingConverter
             {
                 Console.WriteLine($"Couldn't figure out the provided encoding. Are you sure it is a valid encoding or codepage?\n{e.Message}");
             }
-
         }
     }
 }

@@ -8,12 +8,15 @@ namespace EncodingMethods
 {
     public static class DirectoryInfoExtension
     {
-        // Taken from https://stackoverflow.com/questions/3527203/getfiles-with-multiple-extensions
         public static IEnumerable<FileInfo> GetFilesByExtensions(this DirectoryInfo dirInfo, params string[] extensions)
         {
             var allowedExtensions = new HashSet<string>(extensions, StringComparer.OrdinalIgnoreCase);
+            if (allowedExtensions.Contains("*"))
+            {
+                return dirInfo.EnumerateFiles(string.Empty, SearchOption.AllDirectories);
+            }
 
-            return dirInfo.EnumerateFiles()
+            return dirInfo.EnumerateFiles(string.Empty, SearchOption.AllDirectories)
                           .Where(file => allowedExtensions.Contains(file.Extension));
         }
     }
@@ -21,7 +24,7 @@ namespace EncodingMethods
     public static class DirectoryEncodingConverter
     {
         public static System.Text.EncodingProvider EncodingProvider = System.Text.CodePagesEncodingProvider.Instance; // These fixes the missing encodings in .NET Core.
-        public static int ConvertAllFileEncodingsFiltered(string directory, Encoding newEncoding)
+        public static int ConvertAllFileEncodingsFiltered(string directory, Encoding newEncoding, List<string> extensionFilters)
         {
             if (!Directory.Exists(directory))
             {
@@ -32,7 +35,7 @@ namespace EncodingMethods
 
             int convertedFilesCounter = 0;
 
-            foreach (var file in targetDirectoryInfo.GetFilesByExtensions(".h", ".cpp", ".hpp"))
+            foreach (var file in targetDirectoryInfo.GetFilesByExtensions(extensionFilters.ToArray()))
             {
                 var fileContent = File.ReadAllText(file.FullName);
                 File.WriteAllText(file.FullName, fileContent, newEncoding);
