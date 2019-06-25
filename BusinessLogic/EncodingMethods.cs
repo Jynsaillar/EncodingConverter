@@ -29,6 +29,7 @@ namespace EncodingMethods
             if (!Directory.Exists(directory))
             {
                 Console.WriteLine($"{directory} is not a valid directory or doesn't exist, returning...");
+                return 0;
             }
 
             var targetDirectoryInfo = new DirectoryInfo(directory);

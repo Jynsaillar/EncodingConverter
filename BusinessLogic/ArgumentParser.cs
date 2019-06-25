@@ -63,7 +63,20 @@ namespace ArgumentParsing
                 }
                 else if (flagFilters && !flagDirectory && !flagEncoding) // This and all following arguments are extensionFilters.
                 {
-                    extensionFilters.Add(argument);
+                    if (argument == "-d" && targetDirectory == string.Empty)
+                    {
+                        flagFilters = false;
+                        flagDirectory = true;
+                    }
+                    else if (argument == "-e" && newEncoding == string.Empty)
+                    {
+                        flagFilters = false;
+                        flagEncoding = true;
+                    }
+                    else
+                    {
+                        extensionFilters.Add(argument);
+                    }
                 }
                 else
                 {
